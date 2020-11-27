@@ -22,8 +22,7 @@ import javax.validation.constraints.Size;
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Usuario_Sequence")
-    @SequenceGenerator(name = "Usuario_Sequence", sequenceName = "USER_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
