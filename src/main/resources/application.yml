@@ -15,4 +15,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
 
-
+server:
+  compression:
+    enabled: true
+  servlet:
+    context-path: /easymanager

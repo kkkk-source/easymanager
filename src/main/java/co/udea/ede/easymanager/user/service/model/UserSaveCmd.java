@@ -41,7 +41,7 @@ public class UserSaveCmd {
 
     public static User toModel(@NotNull UserSaveCmd userToCreateCmd) {
         return User.builder()
-                .firsName(userToCreateCmd.getFirstName())
+                .firstName(userToCreateCmd.getFirstName())
                 .lastName(userToCreateCmd.getLastName())
                 .passWord(userToCreateCmd.getPassword())
                 .email(userToCreateCmd.getEmail())
