@@ -18,7 +18,6 @@ import javax.validation.constraints.Size;
 @Builder
 public class UserSaveCmd {
 
-
     private String firstName;
 
     private String lastName;
@@ -43,11 +42,11 @@ public class UserSaveCmd {
         return User.builder()
                 .firstName(userToCreateCmd.getFirstName())
                 .lastName(userToCreateCmd.getLastName())
-                .passWord(userToCreateCmd.getPassword())
+                .password(userToCreateCmd.getPassword())
                 .email(userToCreateCmd.getEmail())
                 .numberPhone(userToCreateCmd.getNumberPhone())
                 .typeDocument(userToCreateCmd.getTypeDocument())
-                .numDocument(userToCreateCmd.getTypeDocument()).build();
+                .numDocument(userToCreateCmd.getNumDocument()).build();
     }
 
 }

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -18,14 +19,14 @@ import java.util.Set;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String firstName;
     @Column
     private String lastName;
     @Column
-    private String passWord;
+    private String password;
     @Column
     private String email;
     @Column
@@ -42,5 +43,9 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name="role_id")
     )
     private Set<Role> roles; //La diferencia a usar un set es que obligamos a que no se repita ningun valor
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime updateDate;
 
 }

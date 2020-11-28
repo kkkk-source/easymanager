@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 @Builder
 public class UserSaveRequest {
 
-
     private String firstName;
 
     private String lastName;
@@ -44,7 +43,7 @@ public class UserSaveRequest {
                 .email(userToCreate.getEmail())
                 .numberPhone(userToCreate.getNumberPhone())
                 .typeDocument(userToCreate.getTypeDocument())
-                .numDocument(userToCreate.getTypeDocument()).build();
+                .numDocument(userToCreate.getNumDocument()).build();
     }
 
 }
