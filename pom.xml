@@ -12,7 +12,7 @@
 	<artifactId>easymanager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>easymanager</name>
-	<description>Easymanager gestor de ventas e inventario</description>
+	<description>Gestor de ventas e inventario</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -52,7 +52,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -81,7 +80,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 
 </project>
