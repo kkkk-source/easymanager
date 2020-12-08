@@ -1,4 +1,4 @@
-package co.udea.ede.easymanager;
+package co.edu.udea.easymanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class EasymanagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(EasymanagerApplication.class, args);
     }
-
 }
