@@ -48,9 +48,9 @@ class SaleGatewayImpl implements SaleGateway {
 
     @Override
     public List<Sale> findBySaleId(@NotNull Long id) {
-        logger.debug("Begin findById id = {}", id);
-        List<Sale> salesFound = saleRepository.findById(id);
-        logger.debug("End findById salesFound = {}", salesFound);
+        //logger.debug("Begin findById id = {}", id);
+        List<Sale> salesFound = saleRepository.findBySaleId(id);
+        //logger.debug("End findById salesFound = {}", salesFound);
         return salesFound;
     }
 }

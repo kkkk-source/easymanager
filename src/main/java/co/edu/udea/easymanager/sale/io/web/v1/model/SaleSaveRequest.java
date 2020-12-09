@@ -21,10 +21,15 @@ public class SaleSaveRequest {
 
     @NotNull
     @NotBlank
+    private Long product;
+
+    @NotNull
+    @NotBlank
     private Integer amount;
 
     public static SaleSaveCmd toModel(SaleSaveRequest saleToCreate) {
-        return SaleSaveCmd.builder() .amount(saleToCreate.getAmount())
+        return SaleSaveCmd.builder().product(saleToCreate.getProduct())
+                .amount(saleToCreate.getAmount())
                 .build();
     }
 }

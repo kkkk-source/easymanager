@@ -67,16 +67,17 @@ public class SaleController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @CrossOrigin(exposedHeaders = {HttpHeaders.LOCATION})
     public ResponseEntity<Void> create(@Valid @NotNull @RequestBody List<SaleSaveRequest> salesToCreate) {
-        logger.debug("Begin create: salesToCreate = {}", salesToCreate);
+        //logger.debug("Begin create: salesToCreate = {}", salesToCreate);
         List<SaleSaveCmd> salesToCreateCmd = new ArrayList<SaleSaveCmd>();
         salesToCreate.stream().forEach((saleToCreate) -> {
             SaleSaveCmd saleToCreateCmd = SaleSaveRequest.toModel(saleToCreate);
             salesToCreateCmd.add(saleToCreateCmd);
+            logger.debug("End create: salesCreated = {}", saleToCreateCmd);
         });
-        List<Sale> salesCreated = saleService.create(salesToCreateCmd);
+        List<Sale> salesCreated = saleService.createAll(salesToCreateCmd);
+        //Sale firstSaleCreated = salesCreated.get(0);
         URI location = fromUriString("/api/v1/sales").path("/{id}")
-                .buildAndExpand(salesCreated.get(0).getId()).toUri();
-        logger.debug("End create: salesCreated = {}", salesCreated);
+                .buildAndExpand(1).toUri();
         return ResponseEntity.created(location).build();
     }
 
@@ -87,7 +88,7 @@ public class SaleController {
             @ApiResponse(code = 404, message = "Resource not found.", response = ErrorDetails.class),
             @ApiResponse(code = 500, message = "Internal server error.", response = ErrorDetails.class)
     })
-    public ResponseEntity<List<SaleSaveResponse>> findById(@Valid @PathVariable("id") @NotNull Long id) {
+    public ResponseEntity<List<SaleSaveResponse>> findBySaleId(@Valid @PathVariable("id") @NotNull Long id) {
         logger.debug("Begin findById: id = {}", id);
         List<SaleSaveResponse> salesToResponse = new ArrayList<SaleSaveResponse>();
         List<Sale> salesFound = saleService.findBySaleId(id);

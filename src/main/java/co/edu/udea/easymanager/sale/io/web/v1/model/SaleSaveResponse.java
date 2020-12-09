@@ -19,6 +19,8 @@ public class SaleSaveResponse {
 
     private Long id;
 
+    private Long saleId;
+
     private Long product;
 
     private Integer amount;
@@ -28,7 +30,7 @@ public class SaleSaveResponse {
     private LocalDateTime updatedDate;
 
     public static SaleSaveResponse fromModel(Sale sale) {
-        return SaleSaveResponse.builder().id(sale.getId())
+        return SaleSaveResponse.builder().id(sale.getId()).saleId(sale.getSaleId())
                 .product(sale.getProduct()).amount(sale.getAmount())
                 .createdDate(sale.getCreatedDate())
                 .updatedDate(sale.getUpdatedDate())

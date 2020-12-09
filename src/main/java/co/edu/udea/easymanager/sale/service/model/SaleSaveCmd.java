@@ -20,6 +20,10 @@ public class SaleSaveCmd {
 
     @NotNull
     @NotBlank
+    private Long saleId;
+
+    @NotNull
+    @NotBlank
     private Long product;
 
     @NotNull
@@ -27,7 +31,7 @@ public class SaleSaveCmd {
     private Integer amount;
 
     public static Sale toModel(@NotNull SaleSaveCmd saleToCreateCmd) {
-        return Sale.builder().product(saleToCreateCmd.getProduct())
+        return Sale.builder().saleId(saleToCreateCmd.getSaleId()).product(saleToCreateCmd.getProduct())
                 .amount(saleToCreateCmd.getAmount()).build();
     }
 }

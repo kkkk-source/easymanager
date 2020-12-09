@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data
-@Generated
 @NoArgsConstructor
-@AllArgsConstructor
 public class SaleId implements Serializable {
 
     private Long id;
 
     private Long product;
-
 }
