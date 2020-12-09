@@ -12,7 +12,9 @@ import java.util.List;
 
 public interface SaleService {
 
-    List<Sale> create(@NotNull List<SaleSaveCmd> salesToCreateCmd);
+    Sale create(@NotNull SaleSaveCmd saleToCreateCmd);
+
+    List<Sale> createAll(@NotNull List<SaleSaveCmd> salesToCreateCmd);
 
     List<Sale> findBySaleId(@NotNull Long id);
 

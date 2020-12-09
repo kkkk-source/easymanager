@@ -28,24 +28,42 @@ class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public List<Sale> create(@NotNull List<SaleSaveCmd> salesToCreateCmd) {
-        logger.debug("Begin create salesToCreateCmd = {}", salesToCreateCmd);
+    public Sale create(@NotNull SaleSaveCmd saleToCreateCmd) {
+        logger.debug("Begin create saleToCreateCmd = {}", saleToCreateCmd);
+        Sale saleToCreate = SaleSaveCmd.toModel(saleToCreateCmd);
+        Sale saleCreated  = saleGateway.save(saleToCreate);
+        logger.debug("End create saleCreated = {}", saleCreated);
+        return saleCreated;
+    }
+
+    @Override
+    public List<Sale> createAll(@NotNull List<SaleSaveCmd> salesToCreateCmd) {
+        //logger.debug("Begin create salesToCreateCmd = {}", salesToCreateCmd);
         List<Sale> salesCreated = new ArrayList<Sale>();
-        salesToCreateCmd.stream().forEach((saleToCreateCmd) -> {
+        SaleSaveCmd firstSaleToCreateCmd = salesToCreateCmd.get(0);
+        Sale firstSaleToCreate = SaleSaveCmd.toModel(firstSaleToCreateCmd);
+        Sale firstSaleCreated = saleGateway.save(firstSaleToCreate);
+        Long saleId = firstSaleCreated.getId();
+        int size = salesToCreateCmd.size();
+        for (int i = 1; i < size; i++) {
+            SaleSaveCmd saleToCreateCmd = salesToCreateCmd.get(i);
+            saleToCreateCmd.setSaleId(saleId);
             Sale saleToCreate = SaleSaveCmd.toModel(saleToCreateCmd);
+            System.out.println(saleToCreate.getId()); //
             Sale saleCreated  = saleGateway.save(saleToCreate);
+            System.out.println(saleCreated.getId()); //
             salesCreated.add(saleCreated);
-        });
-        logger.debug("End create salesCreated = {}", salesCreated);
+        };
+        //logger.debug("End create salesCreated = {}", salesCreated);
         return salesCreated;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Sale> findBySaleId(@NotNull Long id) {
-        logger.debug("Begin findById id = {}", id);
+        //logger.debug("Begin findById id = {}", id);
         List<Sale> salesFound = saleGateway.findBySaleId(id);
-        logger.debug("End findById salesFound = {}", salesFound);
+        //logger.debug("End findById salesFound = {}", salesFound);
         return salesFound;
     }
 }

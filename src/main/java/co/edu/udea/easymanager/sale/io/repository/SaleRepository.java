@@ -1,7 +1,6 @@
 package co.edu.udea.easymanager.sale.io.repository;
 
 import co.edu.udea.easymanager.sale.model.Sale;
-import co.edu.udea.easymanager.sale.model.SaleId;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,6 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Repository
-public interface SaleRepository extends PagingAndSortingRepository<Sale, SaleId>, JpaSpecificationExecutor<Sale> {
-    List<Sale> findById(@NotNull Long id);
+public interface SaleRepository extends PagingAndSortingRepository<Sale, Long>, JpaSpecificationExecutor<Sale> {
+    List<Sale> findBySaleId(@NotNull Long id);
 }
