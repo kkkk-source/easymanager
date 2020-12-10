@@ -38,32 +38,52 @@ class SaleServiceImpl implements SaleService {
 
     @Override
     public List<Sale> createAll(@NotNull List<SaleSaveCmd> salesToCreateCmd) {
-        //logger.debug("Begin create salesToCreateCmd = {}", salesToCreateCmd);
+        logger.debug("Begin create salesToCreateCmd = {}", salesToCreateCmd);
         List<Sale> salesCreated = new ArrayList<Sale>();
-        SaleSaveCmd firstSaleToCreateCmd = salesToCreateCmd.get(0);
+        SaleSaveCmd firstSaleToCreateCmd = salesToCreateCmd.remove(0);
         Sale firstSaleToCreate = SaleSaveCmd.toModel(firstSaleToCreateCmd);
-        Sale firstSaleCreated = saleGateway.save(firstSaleToCreate);
+        Sale firstSaleCreated  = saleGateway.save(firstSaleToCreate);
         Long saleId = firstSaleCreated.getId();
-        int size = salesToCreateCmd.size();
-        for (int i = 1; i < size; i++) {
-            SaleSaveCmd saleToCreateCmd = salesToCreateCmd.get(i);
+        firstSaleToCreateCmd.setSaleId(saleId);
+        update(firstSaleCreated.getId(), firstSaleToCreateCmd);
+        salesToCreateCmd.stream().forEach((saleToCreateCmd) -> {
             saleToCreateCmd.setSaleId(saleId);
             Sale saleToCreate = SaleSaveCmd.toModel(saleToCreateCmd);
-            System.out.println(saleToCreate.getId()); //
             Sale saleCreated  = saleGateway.save(saleToCreate);
-            System.out.println(saleCreated.getId()); //
             salesCreated.add(saleCreated);
-        };
-        //logger.debug("End create salesCreated = {}", salesCreated);
+        });
+        logger.debug("End create salesCreated = {}", salesCreated);
         return salesCreated;
     }
 
     @Override
     @Transactional(readOnly = true)
+    public Sale findById(@NotNull Long id) {
+        logger.debug("Begin findById id = {}", id);
+        Sale saleFound = saleGateway.findById(id);
+        logger.debug("End findById userFound = {}", saleFound);
+        return saleFound;
+    }
+
+    @Override
+    public Sale update(@NotNull Long id, @NotNull SaleSaveCmd saleToUpdateCmd) {
+        logger.debug("Begin update id = {}, saleToUpdateCmd = {}", id, saleToUpdateCmd);
+        Sale saleInDataBase = findById(id);
+        Sale saleToUpdate = saleInDataBase.toBuilder()
+            .saleId(saleToUpdateCmd.getSaleId()).product(saleToUpdateCmd.getProduct())
+            .amount(saleToUpdateCmd.getAmount())
+            .build();
+        Sale saleUpdated = saleGateway.update(saleToUpdate);
+        logger.debug("End update saleUpdated = {}", saleUpdated);
+        return saleUpdated;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Sale> findBySaleId(@NotNull Long id) {
-        //logger.debug("Begin findById id = {}", id);
+        logger.debug("Begin findById id = {}", id);
         List<Sale> salesFound = saleGateway.findBySaleId(id);
-        //logger.debug("End findById salesFound = {}", salesFound);
+        logger.debug("End findById salesFound = {}", salesFound);
         return salesFound;
     }
 }

@@ -14,5 +14,9 @@ public interface SaleGateway {
 
     Sale save(@NotNull Sale saleToCreate);
 
+    Sale findById(@NotNull Long id);
+
     List<Sale> findBySaleId(@NotNull Long id);
+
+    Sale update(@NotNull Sale saleToUpdate);
 }

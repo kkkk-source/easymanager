@@ -16,6 +16,9 @@ public interface SaleService {
 
     List<Sale> createAll(@NotNull List<SaleSaveCmd> salesToCreateCmd);
 
+    Sale findById(@NotNull Long id);
+
     List<Sale> findBySaleId(@NotNull Long id);
 
+    Sale update(@NotNull Long id, @NotNull SaleSaveCmd saleToUpdateCmd);
 }
