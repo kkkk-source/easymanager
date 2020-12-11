@@ -8,6 +8,11 @@ import co.edu.udea.easymanager.sale.model.Sale;
 import co.edu.udea.easymanager.sale.service.SaleService;
 import co.edu.udea.easymanager.sale.service.model.SaleSaveCmd;
 
+import co.edu.udea.easymanager.closeout.model.Closeout;
+import co.edu.udea.easymanager.closeout.service.CloseoutService;
+import co.edu.udea.easymanager.closeout.service.CloseoutServiceImpl;
+import co.edu.udea.easymanager.closeout.io.web.v1.model.CloseoutListResponse;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -52,9 +57,11 @@ public class SaleController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private SaleService saleService;
+    private CloseoutService closeoutService;
 
-    public SaleController(SaleService saleService) {
+    public SaleController(SaleService saleService, CloseoutService closeoutService) {
         this.saleService = saleService;
+        this.closeoutService = closeoutService;
     }
 
     @PostMapping
@@ -79,6 +86,23 @@ public class SaleController {
         URI location = fromUriString("/api/v1/sales").path("/{id}")
                 .buildAndExpand(1).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping
+    @ApiOperation(value = "Find a Sales.", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success.", response = CloseoutListResponse.class),
+            @ApiResponse(code = 400, message = "Payload is invalid.", response = ErrorDetails.class),
+            @ApiResponse(code = 404, message = "Resource not found.", response = ErrorDetails.class),
+            @ApiResponse(code = 500, message = "Internal server error.", response = ErrorDetails.class)
+    })
+    public ResponsePagination<CloseoutListResponse> findAll(@PageableDefault(page = 0, size = 10) 
+                                                                Pageable pageable) {
+        Page<Closeout> closeoutFound = closeoutService.findAll(pageable);
+        List<CloseoutListResponse> closeoutFoundList = closeoutFound.stream()
+                .map(CloseoutListResponse::fromModel)
+                .collect(Collectors.toList());
+        return ResponsePagination.fromObject(closeoutFoundList, closeoutFound.getTotalElements(), 
+                closeoutFound.getNumber(), closeoutFoundList.size());
     }
 
     @GetMapping(path = "/{id}")
