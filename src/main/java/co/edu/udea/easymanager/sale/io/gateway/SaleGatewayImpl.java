@@ -3,15 +3,11 @@ package co.edu.udea.easymanager.sale.io.gateway;
 import co.edu.udea.easymanager.shared.web.exception.ResourceNotFoundException;
 import co.edu.udea.easymanager.sale.io.repository.SaleRepository;
 import co.edu.udea.easymanager.sale.model.Sale;
-import co.edu.udea.easymanager.sale.model.SaleId;
 import co.edu.udea.easymanager.sale.service.SaleGateway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.Predicate;

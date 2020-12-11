@@ -74,7 +74,7 @@ public class SaleController {
             salesToCreateCmd.add(saleToCreateCmd);
             logger.debug("End create: salesCreated = {}", saleToCreateCmd);
         });
-        List<Sale> salesCreated = saleService.createAll(salesToCreateCmd);
+        List<Sale> salesCreated = saleService.create(salesToCreateCmd);
         //Sale firstSaleCreated = salesCreated.get(0);
         URI location = fromUriString("/api/v1/sales").path("/{id}")
                 .buildAndExpand(1).toUri();
