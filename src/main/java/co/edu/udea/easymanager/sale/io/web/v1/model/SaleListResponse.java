@@ -1,6 +1,6 @@
-package co.edu.udea.easymanager.product.service.model;
+package co.edu.udea.easymanager.sale.io.web.v1.model;
 
-import co.edu.udea.easymanager.product.model.Product;
+import co.edu.udea.easymanager.sale.model.Sale;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.math.BigDecimal;
 
 @Data
@@ -18,19 +19,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductSaveCmd {
+public class SaleListResponse {
 
-    @NotNull
-    @NotBlank
-    private String name;
-
-    @NotNull
-    @NotBlank
+    private Long id;
+    
     private BigDecimal price;
 
-    public static Product toModel(@NotNull ProductSaveCmd productToCreateCmd) {
-        return Product.builder().name(productToCreateCmd.getName())
-                .price(productToCreateCmd.getPrice())
+    public static SaleListResponse fromModel(Sale sale) {
+        return SaleListResponse.builder().id(sale.getId())
+                .price(sale.getPrice())
                 .build();
     }
 }

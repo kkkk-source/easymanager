@@ -4,6 +4,7 @@ import co.edu.udea.easymanager.shared.model.ErrorDetails;
 import co.edu.udea.easymanager.shared.model.ResponsePagination;
 import co.edu.udea.easymanager.sale.io.web.v1.model.SaleSaveRequest;
 import co.edu.udea.easymanager.sale.io.web.v1.model.SaleSaveResponse;
+import co.edu.udea.easymanager.sale.io.web.v1.model.SaleListResponse;
 import co.edu.udea.easymanager.sale.model.Sale;
 import co.edu.udea.easymanager.sale.service.SaleService;
 import co.edu.udea.easymanager.sale.service.model.SaleSaveCmd;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -51,10 +53,23 @@ import static org.springframework.web.util.UriComponentsBuilder.fromUriString;
 public class SaleController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
     private SaleService saleService;
 
-    public SaleController(SaleService saleService) {
-        this.saleService = saleService;
+    
+    @GetMapping
+    @ApiOperation(value = "Find sales", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = SaleListResponse.class),
+        @ApiResponse(code = 400, message = "Payload is invalid.", response = ErrorDetails.class),
+        @ApiResponse(code = 500, message = "Internal server error.", response = ErrorDetails.class)})
+    public ResponseEntity<List<SaleListResponse>> findAll() {
+        List<Sale> salesFound = saleService.findAllFetchSales();
+        List<SaleListResponse> salesFoundList = salesFound.stream().map(SaleListResponse::fromModel)
+                .collect(Collectors.toList());
+        logger.debug("End findByParameters: usersFound = {}", salesFound);
+        return new ResponseEntity<List<SaleListResponse>>(salesFoundList, HttpStatus.OK);
     }
 
     @PostMapping
@@ -66,17 +81,13 @@ public class SaleController {
     })
     @ResponseStatus(value = HttpStatus.CREATED)
     @CrossOrigin(exposedHeaders = {HttpHeaders.LOCATION})
-    public ResponseEntity<Void> create(@Valid @NotNull @RequestBody List<SaleSaveRequest> salesToCreate) {
-        logger.debug("Begin create: salesToCreate = {}", salesToCreate);
-        List<SaleSaveCmd> salesToCreateCmd = new ArrayList<SaleSaveCmd>();
-        salesToCreate.stream().forEach((saleToCreate) -> {
-            SaleSaveCmd saleToCreateCmd = SaleSaveRequest.toModel(saleToCreate);
-            salesToCreateCmd.add(saleToCreateCmd);
-        });
-        List<Sale> salesCreated = saleService.create(salesToCreateCmd);
+    public ResponseEntity<Void> create(@Valid @NotNull @RequestBody SaleSaveRequest saleToCreate) {
+        logger.debug("Begin create: saleToCreate = {}", saleToCreate);
+        SaleSaveCmd saleToCreateCmd = SaleSaveRequest.toModel(saleToCreate);
+        Sale saleCreated = saleService.create(saleToCreateCmd);
         URI location = fromUriString("/api/v1/sales").path("/{id}")
-                .buildAndExpand(salesCreated.get(0).getId()).toUri();
-        logger.debug("End create: salesCreated = {}", salesCreated);
+                .buildAndExpand(saleCreated.getId()).toUri();
+        logger.debug("End create: saleCreated = {}", saleCreated);
         return ResponseEntity.created(location).build();
     }
 
@@ -87,15 +98,11 @@ public class SaleController {
             @ApiResponse(code = 404, message = "Resource not found.", response = ErrorDetails.class),
             @ApiResponse(code = 500, message = "Internal server error.", response = ErrorDetails.class)
     })
-    public ResponseEntity<List<SaleSaveResponse>> findById(@Valid @PathVariable("id") @NotNull Long id) {
+    public ResponseEntity<SaleSaveResponse> findById(@Valid @PathVariable("id") @NotNull Long id) {
         logger.debug("Begin findById: id = {}", id);
-        List<SaleSaveResponse> salesToResponse = new ArrayList<SaleSaveResponse>();
-        List<Sale> salesFound = saleService.findBySaleId(id);
-        salesFound.stream().forEach((saleFound) -> {
-            SaleSaveResponse saleToResponse = SaleSaveResponse.fromModel(saleFound);
-            salesToResponse.add(saleToResponse);
-        });
-        logger.debug("End findById: salesFound = {}", salesFound);
-        return new ResponseEntity<List<SaleSaveResponse>>(salesToResponse, HttpStatus.OK);
+        Sale saleFound = saleService.findById(id);
+        SaleSaveResponse saleToResponse = SaleSaveResponse.fromModel(saleFound);
+        logger.debug("End findById: saleFound = {}", saleFound);
+        return ResponseEntity.ok(saleToResponse);
     }
 }
