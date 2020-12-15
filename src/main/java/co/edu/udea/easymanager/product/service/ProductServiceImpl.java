@@ -54,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
         logger.debug("Begin update id = {}, productToUpdateCmd = {}", id, productToUpdateCmd);
         Product productInDataBase = findById(id);
         Product productToUpdate = productInDataBase.toBuilder()
-                .name(productToUpdateCmd.getName()).price(productToUpdateCmd.getPrice())
-                .description(productToUpdateCmd.getDescription())
+                .name(productToUpdateCmd.getName())
+                .price(productToUpdateCmd.getPrice())
                 .build();
         Product productUpdated = productGateway.update(productToUpdate);
         logger.debug("End update productUpdated = {}", productUpdated);

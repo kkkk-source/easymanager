@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Product implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,11 +39,8 @@ public class Product implements Serializable {
     @NotBlank
     private BigDecimal price;
 
-    @NotBlank
-    @Size(min = 0, max = 280)
-    private String description;
-
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
+
 }

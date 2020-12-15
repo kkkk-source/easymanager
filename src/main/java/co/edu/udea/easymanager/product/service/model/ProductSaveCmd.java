@@ -8,11 +8,10 @@ import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Data
 @Generated
@@ -20,6 +19,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 public class ProductSaveCmd {
+
     @NotNull
     @NotBlank
     private String name;
@@ -28,12 +28,9 @@ public class ProductSaveCmd {
     @NotBlank
     private BigDecimal price;
 
-    @NotBlank
-    @Size(min = 0, max = 280)
-    private String description;
-
     public static Product toModel(@NotNull ProductSaveCmd productToCreateCmd) {
-        return Product.builder().name(productToCreateCmd.getName()).price(productToCreateCmd.getPrice())
-                .description(productToCreateCmd.getDescription()).build();
+        return Product.builder().name(productToCreateCmd.getName())
+                .price(productToCreateCmd.getPrice())
+                .build();
     }
 }

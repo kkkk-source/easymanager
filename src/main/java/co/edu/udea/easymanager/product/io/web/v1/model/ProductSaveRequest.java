@@ -29,12 +29,9 @@ public class ProductSaveRequest {
     @NotBlank
     private BigDecimal price;
 
-    @NotBlank
-    @Size(min = 0, max = 280)
-    private String description;
-
     public static ProductSaveCmd toModel(ProductSaveRequest productToCreate) {
-        return ProductSaveCmd.builder().name(productToCreate.getName()).price(productToCreate.getPrice())
-                .description(productToCreate.getDescription()).build();
+        return ProductSaveCmd.builder().name(productToCreate.getName())
+                .price(productToCreate.getPrice())
+                .build();
     }
 }

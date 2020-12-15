@@ -24,15 +24,13 @@ public class ProductSaveResponse {
 
     private BigDecimal price;
 
-    private String description;
-
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
 
     public static ProductSaveResponse fromModel(Product product) {
-        return ProductSaveResponse.builder().id(product.getId()).name(product.getName())
-                .price(product.getPrice()).description(product.getDescription())
+        return ProductSaveResponse.builder().id(product.getId())
+                .name(product.getName()).price(product.getPrice())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
                 .build();
