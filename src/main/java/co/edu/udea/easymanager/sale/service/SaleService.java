@@ -12,7 +12,5 @@ public interface SaleService {
     Sale findById(@NotNull Long id);
 
     Sale create(@NotNull SaleSaveCmd saleToCreateCmd);
-
-    Sale update(@NotNull Long id, @NotNull SaleSaveCmd saleToUpdateCmd);
   
 }

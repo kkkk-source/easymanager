@@ -62,7 +62,6 @@ public class SaleController {
 
     @Autowired
     private SaleService saleService;
-    private CloseoutService closeoutService;
 
     @GetMapping
     @ApiOperation(value = "Find sales", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -95,23 +94,6 @@ public class SaleController {
                 .buildAndExpand(saleCreated.getId()).toUri();
         logger.debug("End create: saleCreated = {}", saleCreated);
         return ResponseEntity.created(location).build();
-    }
-
-    @GetMapping
-    @ApiOperation(value = "Find a Sales.", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success.", response = CloseoutListResponse.class),
-            @ApiResponse(code = 400, message = "Payload is invalid.", response = ErrorDetails.class),
-            @ApiResponse(code = 404, message = "Resource not found.", response = ErrorDetails.class),
-            @ApiResponse(code = 500, message = "Internal server error.", response = ErrorDetails.class)
-    })
-    public ResponsePagination<CloseoutListResponse> findAll(@PageableDefault(page = 0, size = 10) 
-                                                                Pageable pageable) {
-        Page<Closeout> closeoutFound = closeoutService.findAll(pageable);
-        List<CloseoutListResponse> closeoutFoundList = closeoutFound.stream()
-                .map(CloseoutListResponse::fromModel)
-                .collect(Collectors.toList());
-        return ResponsePagination.fromObject(closeoutFoundList, closeoutFound.getTotalElements(), 
-                closeoutFound.getNumber(), closeoutFoundList.size());
     }
 
     @GetMapping(path = "/{id}")
