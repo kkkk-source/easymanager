@@ -5,6 +5,7 @@ import co.edu.udea.easymanager.sale.io.repository.SaleRepository;
 import co.edu.udea.easymanager.sale.model.Sale;
 import co.edu.udea.easymanager.sale.service.SaleGateway;
 import org.springframework.data.jpa.domain.Specification;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,4 +48,5 @@ class SaleGatewayImpl implements SaleGateway {
         final Sale saleCreated = saleRepository.save(saleToBeCreated);
         return saleCreated;
     }
+
 }

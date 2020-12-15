@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Service
 @Transactional
-class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private ProductGateway productGateway;

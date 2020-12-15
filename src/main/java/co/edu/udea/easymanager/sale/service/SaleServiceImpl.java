@@ -2,7 +2,9 @@ package co.edu.udea.easymanager.sale.service;
 
 import co.edu.udea.easymanager.sale.model.Sale;
 import co.edu.udea.easymanager.sale.model.SaleProduct;
-import co.edu.udea.easymanager.sale.service.model.SaleSaveCmd; import org.springframework.stereotype.Service; import org.springframework.transaction.annotation.Transactional;
+import co.edu.udea.easymanager.sale.service.model.SaleSaveCmd; 
+import org.springframework.stereotype.Service; 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotNull;
@@ -38,7 +40,7 @@ public class SaleServiceImpl implements SaleService {
         Sale saleCreated = saleGateway.save(saleToCreate);
         saleToCreate.getProducts().stream().forEach((association) -> {
             SaleProduct associationToCreate = SaleProduct.builder()
-                    //.saleId(saleCreated.getId()).productId(association.getProduct().getId())
+                    .saleId(saleCreated.getId()).productId(association.getProduct().getId())
                     .sale(saleCreated).product(association.getProduct())
                     .amount(association.getAmount()).build();
             saleProductGateway.save(associationToCreate);
