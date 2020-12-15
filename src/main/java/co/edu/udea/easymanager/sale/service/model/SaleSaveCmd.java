@@ -1,7 +1,7 @@
 package co.edu.udea.easymanager.sale.service.model;
 
 import co.edu.udea.easymanager.sale.model.Sale;
-import co.edu.udea.easymanager.product.model.Product;
+import co.edu.udea.easymanager.sale.model.SaleProduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class SaleSaveCmd {
     @NotBlank
     private BigDecimal price;
 
-    private List<Product> products;
+    private List<SaleProduct> products;
 
     public static Sale toModel(@NotNull SaleSaveCmd saleToCreateCmd) {
         return Sale.builder().price(saleToCreateCmd.getPrice())

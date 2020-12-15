@@ -37,10 +37,6 @@ public class Product implements Serializable {
 
     @NotNull
     @NotBlank
-    private Integer amount;
-
-    @NotNull
-    @NotBlank
     private BigDecimal price;
 
     private LocalDateTime createdDate;

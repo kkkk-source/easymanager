@@ -1,7 +1,7 @@
 package co.edu.udea.easymanager.sale.io.web.v1.model;
 
 import co.edu.udea.easymanager.sale.model.Sale;
-import co.edu.udea.easymanager.product.model.Product;
+import co.edu.udea.easymanager.sale.model.SaleProduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,16 +24,11 @@ public class SaleSaveResponse {
 
     private BigDecimal price;
 
-    private List<Product> products;
-
-    private LocalDateTime createdDate;
-
-    private LocalDateTime updatedDate;
+    private List<SaleProduct> products;
 
     public static SaleSaveResponse fromModel(Sale sale) {
         return SaleSaveResponse.builder().id(sale.getId()).price(sale.getPrice())
-                .products(sale.getProducts()).createdDate(sale.getCreatedDate())
-                .updatedDate(sale.getUpdatedDate())
+                .products(sale.getProducts())
                 .build();
     }
 }

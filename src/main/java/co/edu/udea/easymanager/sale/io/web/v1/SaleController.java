@@ -6,6 +6,7 @@ import co.edu.udea.easymanager.sale.io.web.v1.model.SaleSaveRequest;
 import co.edu.udea.easymanager.sale.io.web.v1.model.SaleSaveResponse;
 import co.edu.udea.easymanager.sale.io.web.v1.model.SaleListResponse;
 import co.edu.udea.easymanager.sale.model.Sale;
+import co.edu.udea.easymanager.sale.model.SaleProduct;
 import co.edu.udea.easymanager.sale.service.SaleService;
 import co.edu.udea.easymanager.sale.service.model.SaleSaveCmd;
 
@@ -102,7 +103,7 @@ public class SaleController {
         logger.debug("Begin findById: id = {}", id);
         Sale saleFound = saleService.findById(id);
         SaleSaveResponse saleToResponse = SaleSaveResponse.fromModel(saleFound);
-        logger.debug("End findById: saleFound = {}", saleFound);
+        logger.debug("End findById: saleFound = {}", saleToResponse);
         return ResponseEntity.ok(saleToResponse);
     }
 }
